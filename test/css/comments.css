@@ -8,9 +8,9 @@
     Comment
 
 */
-/*  
+/*
  * Comment Test
- * 
+ *
  * - cloudhead (http://cloudhead.net)
  *
  */
@@ -30,6 +30,7 @@
   /**/
   color: red;
   /* A C-style comment */
+  /* A C-style comment */
 
   background-color: orange;
   font-size: 12px;
@@ -44,6 +45,20 @@
     color: grey;
   }
 */
-#last {
-  color: blue;
+.selector,
+.lots,
+.comments {
+  color: #808080, /* blue */ #ffa500;
+  -webkit-border-radius: 2px /* webkit only */;
+  -moz-border-radius: 8px /* moz only with operation */;
 }
+.test {
+  color: 1px //put in @b - causes problems! --->;
+}
+#last {
+  color: #0000ff;
+}
+/*  *//* { *//*  *//*  *//*  */#div {
+  color: #A33;
+}
+/* } */

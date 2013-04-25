@@ -21,21 +21,32 @@ DIST = dist/less-${VERSION}.js
 RHINO = dist/less-rhino-${VERSION}.js
 DIST_MIN = dist/less-${VERSION}.min.js
 
+browser-prepare: DIST := test/browser/less.js
+
 less:
 	@@mkdir -p dist
 	@@touch ${DIST}
 	@@cat ${HEADER} | sed s/@VERSION/${VERSION}/ > ${DIST}
 	@@echo "(function (window, undefined) {" >> ${DIST}
 	@@cat build/require.js\
-	      build/amd.js\
 	      ${SRC}/parser.js\
 	      ${SRC}/functions.js\
 	      ${SRC}/colors.js\
 	      ${SRC}/tree/*.js\
 	      ${SRC}/tree.js\
-	      ${SRC}/browser.js >> ${DIST}
+	      ${SRC}/browser.js\
+	      build/amd.js >> ${DIST}
 	@@echo "})(window);" >> ${DIST}
 	@@echo ${DIST} built.
+	
+browser-prepare: less
+	node test/browser-test-prepare.js
+	
+browser-test: browser-prepare
+	phantomjs test/browser/phantom-runner.js
+
+browser-test-server: browser-prepare
+	phantomjs test/browser/phantom-runner.js --no-tests
 
 rhino:
 	@@mkdir -p dist
@@ -43,6 +54,7 @@ rhino:
 	@@cat build/require-rhino.js\
 	      ${SRC}/parser.js\
 	      ${SRC}/functions.js\
+	      ${SRC}/colors.js\
 	      ${SRC}/tree/*.js\
 	      ${SRC}/tree.js\
 	      ${SRC}/rhino.js > ${RHINO}
